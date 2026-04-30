@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+
+    /* soft pink + gradient */
+    background: linear-gradient(135deg, #ffe6f0, #f8f9ff);
+}
+
+/* TOP BAR */
+.topbar {
+    background: linear-gradient(135deg, #ff4d88, #ff80bf);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+}
+
+.logout-btn {
+    background: white;
+    color: #ff4d88;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background: #ffe6f0;
+}
+
+/* HERO IMAGE */
+.hero {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.hero img {
+    width: 120px;
+    opacity: 0.9;
+}
+
+/* CARDS */
+.card-box {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* STATS */
+.stat {
+    text-align: center;
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
+}
+
+.blue { background: #4f6ef7; }
+.green { background: #2ecc71; }
+.orange { background: #ff9f43; }
+.pink { background: #ff4d88; }
+
+/* TASK ROW */
+.task-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.task-row:hover {
+    background: #fff0f5;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+.btn-pink {
+    background: #ff4d88;
+    color: white;
+}
+.btn-pink:hover {
+    background: #e6005c;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h4>📊 Project Dashboard</h4>
+    <a href="/logout" class="logout-btn">Logout</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png">
+    <h3>Welcome {{ user }}</h3>
+    <p>Manage Tasks • Team • Productivity</p>
+</div>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="row g-3 mt-2">
+
+<div class="col-md-3">
+<div class="stat blue">
+<h5>{{ total }}</h5>
+<p>Total</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat orange">
+<h5>{{ pending }}</h5>
+<p>Pending</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat green">
+<h5>{{ progress }}</h5>
+<p>Progress</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat pink">
+<h5>{{ done }}</h5>
+<p>Done</p>
+</div>
+</div>
+
+</div>
+
+<!-- OVERDUE -->
+<div class="card-box">
+<h5>⚠ Overdue: {{ overdue }}</h5>
+</div>
+
+<!-- ADD TASK -->
+<div class="card-box">
+<h5>Add Task</h5>
+
+<form method="POST" action="/add" class="row g-2">
+
+<div class="col-md-3">
+<input name="title" class="form-control" placeholder="Task" required>
+</div>
+
+<div class="col-md-3">
+<select name="assigned_to" class="form-control">
+{% for u in users %}
+<option>{{ u }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="col-md-2">
+<select name="status" class="form-control">
+<option>Pending</option>
+<option>In Progress</option>
+<option>Done</option>
+</select>
+</div>
+
+<div class="col-md-2">
+<input type="date" name="due" class="form-control">
+</div>
+
+<div class="col-md-2">
+<button class="btn btn-pink w-100">Add</button>
+</div>
+
+</form>
+</div>
+
+<!-- TASK LIST -->
+<div class="card-box">
+<h5>Tasks</h5>
+
+{% for t in tasks %}
+<div class="task-row">
+
+<div>
+<b>📌 {{ t.title }}</b><br>
+<small>👤 {{ t.assigned_to }} | 📅 {{ t.due }}</small>
+</div>
+
+<div>
+<span class="badge bg-secondary">{{ t.status }}</span>
+</div>
+
+<div>
+<a href="/update/{{ loop.index0 }}/Done" class="btn btn-success btn-sm">✔</a>
+<a href="/delete/{{ loop.index0 }}" class="btn btn-danger btn-sm">🗑</a>
+</div>
+
+</div>
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

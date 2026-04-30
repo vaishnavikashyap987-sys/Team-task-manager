@@ -1,0 +1,12 @@
+<h2>Project Management</h2>
+
+<form method="post">
+<input name="name" placeholder="Project Name">
+<button>Create</button>
+</form>
+
+<ul>
+{% for p in projects %}
+<li>{{p.name}}</li>
+{% endfor %}
+</ul>
