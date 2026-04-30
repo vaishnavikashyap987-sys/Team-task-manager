@@ -12,6 +12,14 @@ users = [
 
 tasks = []
 
+# ---------------- HOME ROUTE (🔥 MISSING THA YE) ----------------
+@app.route("/")
+def home():
+    if "user" in session:
+        return redirect("/dashboard")
+    return redirect("/login")
+
+
 # ---------------- LOGIN ----------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
