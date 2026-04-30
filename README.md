@@ -28,3 +28,9 @@ The interface is designed to be clean, responsive, and easy to use. It focuses o
 
 ## Purpose
 This project was created for learning Flask and understanding basic web application development with user authentication and task management features.
+
+## Future Improvements
+- Add database support (SQLite or MySQL)
+- Improve authentication security
+- Add drag and drop task management
+- Better analytics and reporting dashboard
